@@ -1,36 +1,45 @@
-PImage froggo;
+PImage[] froggo;
 
 void setup() {
-  size(420, 750);
+  //size(420, 750);
+  fullScreen(); // p2 fixes flicker and copy issues, something to do with pngs bitmap
 
-  frameRate(5);
+  frameRate(4);
 
+  froggo = new PImage[10];
 
-  froggo = loadImage("spritesheet_froggo.png");
+  for (int index = 0; index < 10; ++index)
+    froggo[index] = loadImage("froggo_0" + index + ".png");
+
   imageMode(CENTER);
   ellipseMode(CENTER);
-  smooth(0);
+  rectMode(CENTER);
+  noSmooth();
 }
 
 void draw() {
   noStroke();
   background(69); // nice
-  
+
   fill(42);
-  rect(0, (int)(height*.65), width, height);
+  rect(width/2, (int)(height * .85), width, (int)(height * .3));
 
   fill(255, 100);
   triangle(
-    (int)(width*.5), (int)(height*.2),
-    (int)(width*.35), (int)(height*.675),
-    (int)(width*.65), (int)(height*.675)
+    width/2, height/5,
+    width/2 + width/4, height*2/3 + width/4,
+    width/2 - width/4, height*2/3 + width/4
+    );
+  arc(
+    width/2, height*2/3 + width/4,
+    width/2, height/10,
+    0, PI
     );
   ellipse(
-    (int)(width*.5), (int)(height*.7),
-    (int)(width*.5), (int)(height*.1)
+    width/2, height*2/3 + width/4,
+    width/2, height/10
     );
 
-  int fr = (int)random(0, 7);
-
-  copy(froggo, fr * 64, 0, 64, 64, width/4, (int)(height*.45), width/2, width/2);
+  int randomIndex = (int)random(0, froggo.length);
+  image(froggo[randomIndex], width/2, height*2/3, width/2, width/2);
 }
